@@ -3,84 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony Freitas | Portfólio Profissional</title>
+    <title>Antony Freitas | Portfólio Dark Skeuomorph</title>
     <style>
-        body { 
-            font-family: system-ui, -apple-system, sans-serif; 
-            line-height: 1.6; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f4f9; 
-            color: #333; 
+        :root {
+            /* Paleta Dark e texturas industriais */
+            --bg-color: #1a1c23;
+            --shadow-dark: #0f1115;
+            --shadow-light: #252831;
+            --text-main: #8a95b5;
+            --neon-blue: #00d2ff;
+            --neon-green: #00ff9d;
+            --panel-border: #23252d;
         }
-        header { 
-            background-color: #1a1a1a; 
-            color: #fff; 
-            padding: 3rem 1rem; 
-            text-align: center; 
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+            line-height: 1.6;
         }
-        main { 
-            max-width: 800px; 
-            margin: 2rem auto; 
-            padding: 0 1rem; 
+
+        /* Estrutura principal imitando um painel de hardware */
+        .dashboard {
+            max-width: 850px;
+            width: 100%;
+            background: var(--bg-color);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 10px 10px 20px var(--shadow-dark),
+                       -10px -10px 20px var(--shadow-light);
+            border: 1px solid var(--panel-border);
         }
-        h1 { margin-bottom: 0.2rem; font-size: 2.5rem; }
-        h2 { 
-            color: #2c3e50; 
-            border-bottom: 2px solid #3498db; 
-            padding-bottom: 0.3rem; 
-            margin-top: 2rem;
+
+        /* Visor principal com profundidade (Inset) */
+        .header-display {
+            text-align: center;
+            padding: 35px;
+            border-radius: 15px;
+            background: #15171c;
+            box-shadow: inset 8px 8px 16px var(--shadow-dark),
+                        inset -8px -8px 16px var(--shadow-light);
+            margin-bottom: 40px;
+            border: 2px solid #111216;
         }
-        .card { 
-            margin-bottom: 1.5rem; 
-            background: #fff; 
-            padding: 1.5rem; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+
+        h1 {
+            color: var(--neon-blue);
+            text-shadow: 0 0 12px rgba(0, 210, 255, 0.4), 2px 2px 4px #000;
+            margin: 0 0 5px 0;
+            font-size: 2.5rem;
+            letter-spacing: 1.5px;
         }
-        .tag {
-            display: inline-block;
-            background: #e1f0fa;
-            color: #2980b9;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+
+        .subtitle {
+            color: #5d6785;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px #000;
+            margin-bottom: 20px;
+        }
+
+        /* Botões de Contato em relevo */
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-contact {
+            padding: 8px 18px;
+            border-radius: 8px;
+            background: var(--bg-color);
+            box-shadow: 4px 4px 8px var(--shadow-dark),
+                       -4px -4px 8px var(--shadow-light);
+            color: var(--neon-green);
+            text-decoration: none;
             font-size: 0.9rem;
-            margin: 0.2rem;
             font-weight: 500;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-contact:active {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark),
+                        inset -4px -4px 8px var(--shadow-light);
+            color: #00b36e;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #b5c1e5;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px #000;
+            border-bottom: 2px solid #23252d;
+            padding-bottom: 10px;
+            box-shadow: 0 4px 2px -2px rgba(0,0,0,0.4);
+        }
+
+        /* Cartões de Experiência e Educação com efeito de elevação */
+        .card {
+            background: linear-gradient(145deg, #181a20, #1c1e25);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 6px 6px 12px var(--shadow-dark),
+                       -6px -6px 12px var(--shadow-light);
+            margin-bottom: 25px;
+            border: 1px solid var(--panel-border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            color: var(--neon-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .date-badge {
+            background: #15171c;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            box-shadow: inset 2px 2px 5px var(--shadow-dark),
+                        inset -2px -2px 5px var(--shadow-light);
+            color: #5d6785;
+            border: 1px solid #111;
+        }
+
+        /* Tela interna de texto imitando um terminal limpo */
+        .terminal-screen {
+            background: #111216;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: inset 5px 5px 10px var(--shadow-dark),
+                        inset -5px -5px 10px #1c1e25;
+            color: #7180ab;
+            font-size: 0.95rem;
+            border: 1px solid #0a0b0d;
+        }
+
+        /* Grade de habilidades simulando botões físicos de um painel */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill-btn {
+            padding: 12px 22px;
+            border-radius: 10px;
+            background: var(--bg-color);
+            box-shadow: 5px 5px 10px var(--shadow-dark),
+                       -5px -5px 10px var(--shadow-light);
+            color: #c9d4fa;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: default;
+            border: 1px solid var(--panel-border);
+        }
+
+        .skill-btn:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Antony Freitas</h1>
-        <p>Analista de Sistemas | Foco em Dados, CX e Infraestrutura</p>
-    </header>
 
-    <main>
-        <section class="card">
-            <h2>Resumo Profissional</h2>
-            <p>Profissional de tecnologia com sólida experiência no ecossistema financeiro, atuando na resolução técnica de plataformas de alta performance (Profit Ultra e BlackArrow) na Nelogica. Especialista em unir suporte ao cliente com análise de dados para gestão de SLAs, mapeamento de detratores e otimização de Experiência do Cliente (CX).</p>
-        </section>
+    <div class="dashboard">
         
-        <section class="card">
-            <h2>Formação e Competências</h2>
-            <p><strong>Educação:</strong> Análise e Desenvolvimento de Sistemas (UniRitter) | Pós-graduação em Cibersegurança e Análise de Dados & IA.</p>
-            <p><strong>Stack Técnico:</strong></p>
-            <div>
-                <span class="tag">Python</span>
-                <span class="tag">R</span>
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">Power Automate</span>
-                <span class="tag">Jira</span>
-                <span class="tag">Cloudflare</span>
+        <header class="header-display">
+            <h1>Antony Freitas</h1>
+            <div class="subtitle">Analista de Sistemas | Foco em Dados, CX e Infraestrutura</div>
+            <div class="terminal-screen" style="margin-top: 15px; text-align: left;">
+                Profissional de TI Estratégica de 25 anos, residente em Viamão, especializado em Processos (Python) e Análise de Dados. O foco central da atuação é transformar dados em insights acionáveis e otimizar a infraestrutura de TI para máxima eficiência e segurança.
+            </div>
+            <div class="contact-grid">
+                <span class="btn-contact">51 984744696</span>
+                <span class="btn-contact">antony.freitas@outlook.com.br</span>
+                <a href="https://www.linkedin.com/in/antony-freitas" class="btn-contact" target="_blank">LinkedIn</a>
+            </div>
+        </header>
+
+        <section>
+            <h2>Competências Técnicas</h2>
+            <div class="skills-grid">
+                <div class="skill-btn">Python</div>
+                <div class="skill-btn">R</div>
+                <div class="skill-btn">HTML/CSS</div>
+                <div class="skill-btn">Power Automate</div>
+                <div class="skill-btn">Jira</div>
+                <div class="skill-btn">Segurança de Dados</div>
+                <div class="skill-btn">Pensamento Crítico</div>
+                <div class="skill-btn">Suporte ao Cliente</div>
             </div>
         </section>
 
-        <section class="card">
-            <h2>Projetos em Destaque</h2>
-            <p><strong>Monitoramento e Dashboards:</strong> Desenvolvimento de painéis estruturados para cruzar métricas de atendimento e gerar insights de negócios.</p>
-            <p><strong>Automação de Reclamações:</strong> Estruturação de lógicas via Microsoft Graph API e integração com plataformas externas para rastreamento inteligente.</p>
+        <section>
+            <h2>Experiência Profissional</h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Agente V | Atendimento Ultra - Nelogica</div>
+                    <div class="date-badge">jan/2024 - Presente</div>
+                </div>
+                <div class="terminal-screen">
+                    Atuação na linha de frente do atendimento a clientes ultra especializados do mercado financeiro. Foco na resolução ágil de problemas em plataformas críticas de alta performance como Profit, BlackArrow e Vector. Desenvolvimento de abordagens consultivas e atuação como ponte estratégica entre os clientes e a equipe de desenvolvimento de software.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Assistente de TI - Proceconta</div>
+                    <div class="date-badge">fev/2023 - jan/2024</div>
+                </div>
+                <div class="terminal-screen">
+                    Responsável pela gestão de tecnologia e suporte, otimizando processos internos com projetos de automação utilizando Python. Implementação de automações para captura e importação de notas fiscais nos sistemas ERP (Questor, Tareffa, SIGER e SIEG), reduzindo o trabalho manual e aumentando a eficiência operacional da equipe.
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Técnico de Suporte de Informática - CESI Viamópolis</div>
+                    <div class="date-badge">mar/2019 - ago/2019</div>
+                </div>
+                <div class="terminal-screen">
+                    Diagnóstico, reparo e otimização de computadores e periféricos. Responsável pela organização do laboratório de informática e implementação de sistemas eficientes de controle de recursos e equipamentos, oferecendo suporte contínuo para integração tecnológica nas salas de aula.
+                </div>
+            </div>
         </section>
-    </main>
+
+        <section>
+            <h2>Formação Acadêmica</h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Análise e Desenvolvimento de Sistemas</div>
+                    <div class="date-badge">UniRitter</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pós-graduação: Ciência de Dados e Inteligência Artificial</div>
+                    <div class="date-badge">UNINTER</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pós-graduação: Segurança e Defesa Cibernética</div>
+                    <div class="date-badge">UNINTER</div>
+                </div>
+            </div>
+            
+        </section>
+
+    </div>
+
 </body>
 </html>
