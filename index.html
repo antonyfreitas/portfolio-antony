@@ -3,280 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony Freitas | Portfólio Dark Skeuomorph</title>
+    <title>Antony Freitas | Tactical Systems Analyst</title>
     <style>
         :root {
-            /* Paleta Dark e texturas industriais */
-            --bg-color: #1a1c23;
-            --shadow-dark: #0f1115;
-            --shadow-light: #252831;
-            --text-main: #8a95b5;
-            --neon-blue: #00d2ff;
-            --neon-green: #00ff9d;
-            --panel-border: #23252d;
+            /* Paleta Cyber-Tech Vermelha */
+            --bg-base: #08090b;
+            --bg-panel: rgba(20, 22, 27, 0.85);
+            --accent-primary: #ff2d2d; /* Vermelho vibrante */
+            --accent-glow: rgba(255, 45, 45, 0.4);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 45, 45, 0.15);
+            --glass-morph: blur(10px) saturate(180%);
+        }
+
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes backgroundPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'SF Mono', 'Fira Code', 'Segoe UI Mono', monospace;
+            background: linear-gradient(-45deg, #08090b, #121418, #050506, #101114);
+            background-size: 400% 400%;
+            animation: backgroundPulse 15s ease infinite;
             color: var(--text-main);
             margin: 0;
-            padding: 30px 15px;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Estrutura principal imitando um painel de hardware */
-        .dashboard {
-            max-width: 850px;
+        /* Container Principal */
+        .main-container {
+            max-width: 900px;
             width: 100%;
-            background: var(--bg-color);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 10px 10px 20px var(--shadow-dark),
-                       -10px -10px 20px var(--shadow-light);
-            border: 1px solid var(--panel-border);
+            animation: fadeInSlideUp 0.8s ease-out;
         }
 
-        /* Visor principal com profundidade (Inset) */
-        .header-display {
+        /* Header Estilo Terminal de Comando */
+        header {
             text-align: center;
-            padding: 35px;
-            border-radius: 15px;
-            background: #15171c;
-            box-shadow: inset 8px 8px 16px var(--shadow-dark),
-                        inset -8px -8px 16px var(--shadow-light);
-            margin-bottom: 40px;
-            border: 2px solid #111216;
+            padding: 40px;
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-morph);
+            -webkit-backdrop-filter: var(--glass-morph);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
         }
 
         h1 {
-            color: var(--neon-blue);
-            text-shadow: 0 0 12px rgba(0, 210, 255, 0.4), 2px 2px 4px #000;
-            margin: 0 0 5px 0;
-            font-size: 2.5rem;
-            letter-spacing: 1.5px;
+            color: var(--text-main);
+            margin: 0;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 800;
+        }
+
+        h1 span {
+            color: var(--accent-primary);
+            text-shadow: 0 0 15px var(--accent-glow);
         }
 
         .subtitle {
-            color: #5d6785;
+            color: var(--text-muted);
             font-size: 1.1rem;
-            text-shadow: 1px 1px 2px #000;
-            margin-bottom: 20px;
+            letter-spacing: 1px;
+            margin: 10px 0 25px 0;
         }
 
-        /* Botões de Contato em relevo */
-        .contact-grid {
+        .profile-summary {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent-primary);
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+        }
+
+        /* Botões de Contato Modernos */
+        .contact-bar {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            margin-top: 15px;
+            flex-wrap: wrap;
         }
 
-        .btn-contact {
-            padding: 8px 18px;
-            border-radius: 8px;
-            background: var(--bg-color);
-            box-shadow: 4px 4px 8px var(--shadow-dark),
-                       -4px -4px 8px var(--shadow-light);
-            color: var(--neon-green);
+        .btn-action {
+            padding: 10px 20px;
+            border-radius: 4px;
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-contact:active {
-            box-shadow: inset 4px 4px 8px var(--shadow-dark),
-                        inset -4px -4px 8px var(--shadow-light);
-            color: #00b36e;
+        .btn-action:hover {
+            background: var(--accent-primary);
+            color: #fff;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.05);
         }
 
         h2 {
-            font-size: 1.4rem;
-            color: #b5c1e5;
-            margin-top: 40px;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--text-main);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px #000;
-            border-bottom: 2px solid #23252d;
-            padding-bottom: 10px;
-            box-shadow: 0 4px 2px -2px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            animation: fadeInSlideUp 1s ease-out both;
+            animation-delay: 0.2s;
         }
 
-        /* Cartões de Experiência e Educação com efeito de elevação */
-        .card {
-            background: linear-gradient(145deg, #181a20, #1c1e25);
+        h2::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: var(--border-color);
+            margin-left: 20px;
+        }
+
+        /* Seções de Cartões com Animação */
+        .content-section {
+            display: grid;
+            gap: 25px;
+            animation: fadeInSlideUp 1s ease-out both;
+            animation-delay: 0.4s;
+        }
+
+        .data-card {
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-morph);
+            -webkit-backdrop-filter: var(--glass-morph);
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 6px 6px 12px var(--shadow-dark),
-                       -6px -6px 12px var(--shadow-light);
-            margin-bottom: 25px;
-            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        .data-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px -10px rgba(255, 45, 45, 0.2);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 15px;
-            flex-wrap: wrap;
             gap: 10px;
         }
 
         .card-title {
-            color: var(--neon-blue);
+            color: var(--text-main);
             font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: 1px 1px 2px #000;
+            font-size: 1.25rem;
         }
 
-        .date-badge {
-            background: #15171c;
-            padding: 5px 12px;
-            border-radius: 6px;
+        .card-title span {
+            color: var(--accent-primary);
+        }
+
+        .card-meta {
+            color: var(--text-muted);
             font-size: 0.85rem;
-            box-shadow: inset 2px 2px 5px var(--shadow-dark),
-                        inset -2px -2px 5px var(--shadow-light);
-            color: #5d6785;
-            border: 1px solid #111;
+            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
-        /* Tela interna de texto imitando um terminal limpo */
-        .terminal-screen {
-            background: #111216;
-            padding: 18px;
-            border-radius: 8px;
-            box-shadow: inset 5px 5px 10px var(--shadow-dark),
-                        inset -5px -5px 10px #1c1e25;
-            color: #7180ab;
+        .card-body {
+            color: var(--text-muted);
             font-size: 0.95rem;
-            border: 1px solid #0a0b0d;
         }
 
-        /* Grade de habilidades simulando botões físicos de um painel */
-        .skills-grid {
+        /* Habilidades como Módulos de Energia */
+        .skills-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            animation: fadeInSlideUp 1s ease-out both;
+            animation-delay: 0.3s;
         }
 
-        .skill-btn {
-            padding: 12px 22px;
-            border-radius: 10px;
-            background: var(--bg-color);
-            box-shadow: 5px 5px 10px var(--shadow-dark),
-                       -5px -5px 10px var(--shadow-light);
-            color: #c9d4fa;
-            font-weight: 600;
+        .skill-module {
+            padding: 10px 18px;
+            background: rgba(20, 22, 27, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 4px;
             font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
             cursor: default;
-            border: 1px solid var(--panel-border);
         }
 
-        .skill-btn:hover {
-            color: var(--neon-blue);
-            text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+        .skill-module:hover {
+            background: rgba(255, 45, 45, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 0 10px rgba(255, 45, 45, 0.2);
+            transform: translateY(-3px);
         }
+
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
+    <div class="main-container">
         
-        <header class="header-display">
-            <h1>Antony Freitas</h1>
-            <div class="subtitle">Analista de Sistemas | Foco em Dados, CX e Infraestrutura</div>
-            <div class="terminal-screen" style="margin-top: 15px; text-align: left;">
-                Profissional de TI Estratégica de 25 anos, residente em Viamão, especializado em Processos (Python) e Análise de Dados. O foco central da atuação é transformar dados em insights acionáveis e otimizar a infraestrutura de TI para máxima eficiência e segurança.
-            </div>
-            <div class="contact-grid">
-                <span class="btn-contact">51 984744696</span>
-                <span class="btn-contact">antony.freitas@outlook.com.br</span>
-                <a href="https://www.linkedin.com/in/antony-freitas" class="btn-contact" target="_blank">LinkedIn</a>
-            </div>
-        </header>
-
-        <section>
-            <h2>Competências Técnicas</h2>
-            <div class="skills-grid">
-                <div class="skill-btn">Python</div>
-                <div class="skill-btn">R</div>
-                <div class="skill-btn">HTML/CSS</div>
-                <div class="skill-btn">Power Automate</div>
-                <div class="skill-btn">Jira</div>
-                <div class="skill-btn">Segurança de Dados</div>
-                <div class="skill-btn">Pensamento Crítico</div>
-                <div class="skill-btn">Suporte ao Cliente</div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Experiência Profissional</h2>
+        <header>
+            <h1>Antony <span>Freitas</span></h1>
+            <div class="subtitle">Tactical Systems Analyst | Data & Infrastructure</div>
             
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Agente V | Atendimento Ultra - Nelogica</div>
-                    <div class="date-badge">jan/2024 - Presente</div>
-                </div>
-                <div class="terminal-screen">
-                    Atuação na linha de frente do atendimento a clientes ultra especializados do mercado financeiro. Foco na resolução ágil de problemas em plataformas críticas de alta performance como Profit, BlackArrow e Vector. Desenvolvimento de abordagens consultivas e atuação como ponte estratégica entre os clientes e a equipe de desenvolvimento de software.
-                </div>
+            <div class="profile-summary">
+                &gt; INICIANDO PERFIL...<br>
+                &gt; Profissional de TI Estratégica, 25 anos.<br>
+                &gt; Especialidade: Otimização de Processos (Python), Análise de Dados e Infraestrutura de TI.<br>
+                &gt; Foco: Transformar dados brutos em insights operacionais acionáveis.
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Assistente de TI - Proceconta</div>
-                    <div class="date-badge">fev/2023 - jan/2024</div>
-                </div>
-                <div class="terminal-screen">
-                    Responsável pela gestão de tecnologia e suporte, otimizando processos internos com projetos de automação utilizando Python. Implementação de automações para captura e importação de notas fiscais nos sistemas ERP (Questor, Tareffa, SIGER e SIEG), reduzindo o trabalho manual e aumentando a eficiência operacional da equipe.
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Técnico de Suporte de Informática - CESI Viamópolis</div>
-                    <div class="date-badge">mar/2019 - ago/2019</div>
-                </div>
-                <div class="terminal-screen">
-                    Diagnóstico, reparo e otimização de computadores e periféricos. Responsável pela organização do laboratório de informática e implementação de sistemas eficientes de controle de recursos e equipamentos, oferecendo suporte contínuo para integração tecnológica nas salas de aula.
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Formação Acadêmica</h2>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Análise e Desenvolvimento de Sistemas</div>
-                    <div class="date-badge">UniRitter</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Pós-graduação: Ciência de Dados e Inteligência Artificial</div>
-                    <div class="date-badge">UNINTER</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Pós-graduação: Segurança e Defesa Cibernética</div>
-                    <div class="date-badge">UNINTER</div>
-                </div>
-            </div>
-            
-        </section>
-
-    </div>
-
-</body>
-</html>
+            <div class="contact-bar">
+                <a href="mailto:antony.freitas@outlook.com.br" class="btn-action">Email
