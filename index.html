@@ -1,384 +1,690 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony Freitas | Tactical Systems Analyst</title>
-    <style>
-        :root {
-            /* Paleta Cyber-Tech Vermelha */
-            --bg-base: #08090b;
-            --bg-panel: rgba(20, 22, 27, 0.85);
-            --accent-primary: #ff2d2d; 
-            --accent-glow: rgba(255, 45, 45, 0.4);
-            --text-main: #e0e6ed;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 45, 45, 0.15);
-            --glass-morph: blur(10px) saturate(180%);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antony Freitas</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        @keyframes fadeInSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+  :root {
+    --black: #06070a;
+    --surface: #0d0f14;
+    --surface2: #12151c;
+    --red: #e63030;
+    --red-dim: rgba(230, 48, 48, 0.12);
+    --red-glow: rgba(230, 48, 48, 0.35);
+    --gold: #c9a84c;
+    --white: #eceef2;
+    --muted: #5a6070;
+    --line: rgba(255,255,255,0.07);
+  }
 
-        @keyframes backgroundPulse {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+  html { scroll-behavior: smooth; }
 
-        body {
-            font-family: 'SF Mono', 'Fira Code', 'Segoe UI Mono', monospace;
-            background: linear-gradient(-45deg, #08090b, #121418, #050506, #101114);
-            background-size: 400% 400%;
-            animation: backgroundPulse 15s ease infinite;
-            color: var(--text-main);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-        .main-container {
-            max-width: 900px;
-            width: 100%;
-            animation: fadeInSlideUp 0.8s ease-out;
-        }
+  /* ─── CUSTOM CURSOR ─── */
+  #cursor {
+    position: fixed; top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: screen;
+  }
+  #cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(230,48,48,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.18s ease, width 0.2s, height 0.2s, border-color 0.2s;
+  }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring {
+    width: 56px; height: 56px;
+    border-color: var(--red);
+  }
 
-        /* Header */
-        header {
-            text-align: center;
-            padding: 40px;
-            background: var(--bg-panel);
-            backdrop-filter: var(--glass-morph);
-            -webkit-backdrop-filter: var(--glass-morph);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-        }
+  /* ─── GRID LINES ─── */
+  .grid-lines {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  }
 
-        h1 {
-            color: var(--text-main);
-            margin: 0;
-            font-size: 2.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 800;
-        }
+  /* ─── WRAPPER ─── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 32px 120px;
+  }
 
-        h1 span {
-            color: var(--accent-primary);
-            text-shadow: 0 0 15px var(--accent-glow);
-        }
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            margin: 10px 0 25px 0;
-        }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: reveal 0.6s 0.2s forwards;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--red);
+  }
 
-        .profile-summary {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px 20px;
-            border-radius: 4px;
-            border-left: 3px solid var(--accent-primary);
-            text-align: left;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            margin-bottom: 25px;
-        }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 11rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    opacity: 0;
+    animation: reveal 0.8s 0.4s forwards;
+    position: relative;
+  }
+  .hero-name .last {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--red);
+    display: block;
+  }
 
-        .profile-summary span.highlight {
-            color: var(--accent-primary);
-            font-weight: bold;
-        }
+  .hero-role {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    color: var(--muted);
+    margin-top: 28px;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: reveal 0.7s 0.7s forwards;
+  }
+  .hero-role span { color: var(--gold); font-style: normal; }
 
-        /* Botões de Contato */
-        .contact-bar {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+  .hero-summary {
+    max-width: 560px;
+    font-size: 0.85rem;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-top: 32px;
+    padding-left: 20px;
+    border-left: 1px solid var(--red);
+    opacity: 0;
+    animation: reveal 0.7s 0.95s forwards;
+  }
+  .hero-summary em { color: var(--white); font-style: normal; }
 
-        .btn-action {
-            padding: 10px 20px;
-            border-radius: 4px;
-            background: transparent;
-            border: 1px solid var(--accent-primary);
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
+  .hero-contacts {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+    opacity: 0;
+    animation: reveal 0.7s 1.15s forwards;
+  }
 
-        .btn-action:hover {
-            background: var(--accent-primary);
-            color: #fff;
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: scale(1.05);
-        }
+  .cta-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 12px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .cta-link::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--red);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.77,0,0.175,1);
+    z-index: -1;
+  }
+  .cta-link:hover { color: #fff; border-color: var(--red); }
+  .cta-link:hover::after { transform: translateX(0); }
 
-        h2 {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            animation: fadeInSlideUp 1s ease-out both;
-            animation-delay: 0.2s;
-        }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    writing-mode: vertical-lr;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: reveal 1s 1.5s forwards;
+  }
+  .hero-scroll::before {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--muted));
+    animation: scrollLine 2s 2s infinite;
+  }
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    50.01% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
 
-        h2::after {
-            content: '';
-            flex-grow: 1;
-            height: 1px;
-            background: var(--border-color);
-            margin-left: 20px;
-        }
+  /* ─── SECTION ─── */
+  .section { margin-top: 100px; }
 
-        /* Cartões */
-        .content-section {
-            display: grid;
-            gap: 25px;
-            animation: fadeInSlideUp 1s ease-out both;
-            animation-delay: 0.4s;
-        }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label span { color: var(--muted); }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
 
-        .data-card {
-            background: var(--bg-panel);
-            backdrop-filter: var(--glass-morph);
-            -webkit-backdrop-filter: var(--glass-morph);
-            padding: 25px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
+  /* ─── STACK ─── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+  }
+  .stack-item {
+    padding: 18px 16px;
+    background: var(--surface);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: background 0.25s, color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stack-item::before {
+    content: attr(data-index);
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 0.6rem;
+    color: var(--line);
+    letter-spacing: 0.1em;
+  }
+  .stack-item:hover {
+    background: var(--red-dim);
+    color: var(--white);
+  }
+  .stack-item:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--red);
+  }
 
-        .data-card:hover {
-            transform: translateY(-5px) scale(1.01);
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 30px -10px rgba(255, 45, 45, 0.2);
-        }
+  /* ─── PROJECTS ─── */
+  .projects-list { display: grid; gap: 1px; }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            gap: 10px;
-        }
+  .project-item {
+    background: var(--surface);
+    padding: 30px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+    border-left: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .project-item:hover {
+    background: var(--surface2);
+    border-left-color: var(--red);
+  }
+  .project-item .proj-num {
+    font-size: 0.62rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .project-item h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .project-item p {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 520px;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 4px 9px;
+  }
 
-        .card-title {
-            color: var(--text-main);
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
+  /* ─── EXPERIENCE ─── */
+  .exp-list { display: grid; gap: 1px; }
 
-        .card-title span {
-            color: var(--accent-primary);
-        }
+  .exp-item {
+    background: var(--surface);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    transition: background 0.25s;
+  }
+  .exp-item:hover { background: var(--surface2); }
+  .exp-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+    padding-top: 3px;
+  }
+  .exp-date .current {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    padding: 2px 6px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .exp-role {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.25rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .exp-company {
+    font-size: 0.75rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .exp-desc {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
 
-        .card-meta {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            white-space: nowrap;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
+  /* ─── EDUCATION ─── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+  }
+  .edu-item {
+    background: var(--surface);
+    padding: 24px;
+    transition: background 0.25s;
+    position: relative;
+  }
+  .edu-item:hover { background: var(--surface2); }
+  .edu-item::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--red);
+    margin-bottom: 16px;
+  }
+  .edu-degree {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .edu-school {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-        .card-body {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+  /* ─── FOOTER ─── */
+  footer {
+    margin-top: 100px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer span { color: var(--red); }
 
-        /* Habilidades */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            animation: fadeInSlideUp 1s ease-out both;
-            animation-delay: 0.3s;
-        }
+  /* ─── ANIMATIONS ─── */
+  @keyframes reveal {
+    to { opacity: 1; transform: none; }
+  }
 
-        .skill-module {
-            padding: 10px 18px;
-            background: rgba(20, 22, 27, 0.6);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: none;
+  }
 
-        .skill-module:hover {
-            background: rgba(255, 45, 45, 0.1);
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            box-shadow: 0 0 10px rgba(255, 45, 45, 0.2);
-            transform: translateY(-3px);
-        }
-
-    </style>
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .page { padding: 0 20px 80px; }
+    .exp-item { grid-template-columns: 1fr; }
+    .hero-contacts { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="main-container">
-        
-        <header>
-            <h1>Antony <span>Freitas</span></h1>
-            <div class="subtitle">Analista de Sistemas | Foco em Dados, CX e Infraestrutura</div>
-            
-            <div class="profile-summary">
-                &gt; INICIANDO PERFIL...<br>
-                &gt; Profissional de tecnologia com sólida experiência no ecossistema financeiro.<br>
-                &gt; Atuação na resolução técnica de plataformas de alta performance (Profit Ultra e BlackArrow) na Nelogica.<br>
-                &gt; Especialista em unir <span class="highlight">suporte ao cliente com análise de dados</span> para gestão de SLAs, mapeamento de detratores e otimização de Experiência do Cliente (CX).
-            </div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="grid-lines"></div>
 
-            <div class="contact-bar">
-                <a href="mailto:antony.freitas@outlook.com.br" class="btn-action">Email</a>
-                <a href="https://www.linkedin.com/in/antony-freitas" class="btn-action" target="_blank">LinkedIn</a>
-                <span class="btn-action">+51 984744696</span>
-            </div>
-        </header>
+<div class="page">
 
-        <section>
-            <h2>Core Matrix (Stack Técnico)</h2>
-            <div class="skills-container">
-                <div class="skill-module">Python</div>
-                <div class="skill-module">R</div>
-                <div class="skill-module">HTML/CSS</div>
-                <div class="skill-module">Power Automate</div>
-                <div class="skill-module">Jira</div>
-                <div class="skill-module">Cloudflare</div>
-                <div class="skill-module">Gestão de SLAs</div>
-                <div class="skill-module">Otimização de CX</div>
-            </div>
-        </section>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Porto Alegre, BR — Disponível para oportunidades</div>
+    <h1 class="hero-name">
+      Antony
+      <span class="last">Freitas</span>
+    </h1>
+    <p class="hero-role">
+      Analista de Sistemas · <span>CX & Data Operations</span>
+    </p>
+    <p class="hero-summary">
+      Profissional técnico com foco em <em>dados, automação e experiência do cliente</em> no ecossistema financeiro. 
+      Na Nelogica, atuo como interface entre operações e engenharia — construindo sistemas que transformam 
+      <em>atendimento em inteligência de negócio</em>.
+    </p>
+    <div class="hero-contacts">
+      <a href="mailto:antony.freitas@outlook.com.br" class="cta-link">Email</a>
+      <a href="https://www.linkedin.com/in/antony-freitas" target="_blank" class="cta-link">LinkedIn</a>
+      <a href="tel:+5551984744696" class="cta-link">+55 51 98474-4696</a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
 
-        <section>
-            <h2>Active Operations (Projetos em Destaque)</h2>
-            <div class="content-section">
-                
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Monitoramento e <span>Dashboards</span></div>
-                    </div>
-                    <div class="card-body">
-                        Desenvolvimento de painéis estruturados para cruzar métricas de atendimento e gerar insights de negócios.
-                    </div>
-                </div>
+  <!-- STACK -->
+  <section class="section fade-up">
+    <div class="section-label">01 <span>/</span> Stack técnico</div>
+    <div class="stack-grid">
+      <div class="stack-item" data-index="01">Python</div>
+      <div class="stack-item" data-index="02">R</div>
+      <div class="stack-item" data-index="03">HTML / CSS / JS</div>
+      <div class="stack-item" data-index="04">Power Automate</div>
+      <div class="stack-item" data-index="05">Microsoft Graph API</div>
+      <div class="stack-item" data-index="06">GitHub API</div>
+      <div class="stack-item" data-index="07">Jira / Zendesk</div>
+      <div class="stack-item" data-index="08">Gestão de SLAs</div>
+      <div class="stack-item" data-index="09">NPS / Detratores</div>
+      <div class="stack-item" data-index="10">CX Optimization</div>
+      <div class="stack-item" data-index="11">Reclame Aqui</div>
+      <div class="stack-item" data-index="12">Cloudflare</div>
+    </div>
+  </section>
 
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Automação de <span>Reclamações</span></div>
-                    </div>
-                    <div class="card-body">
-                        Estruturação de lógicas via Microsoft Graph API e integração com plataformas externas para rastreamento inteligente.
-                    </div>
-                </div>
+  <!-- PROJECTS -->
+  <section class="section fade-up">
+    <div class="section-label">02 <span>/</span> Projetos em destaque</div>
+    <div class="projects-list">
 
-            </div>
-        </section>
+      <div class="project-item">
+        <div>
+          <div class="proj-num">P — 01</div>
+          <h3>Customer Care Dashboard</h3>
+          <p>
+            Painel single-page hospedado em GitHub Pages para rastreamento em tempo real de tickets Reclame Aqui 
+            e gestão ativa de detratores de NPS. Integração via GitHub API com sincronização automática por Power Automate. 
+            Módulos: KPIs, gráficos doughnut/bar, fila de ação e exportação PDF.
+          </p>
+          <div class="project-tags">
+            <span class="tag">HTML/JS</span>
+            <span class="tag">GitHub API</span>
+            <span class="tag">Power Automate</span>
+            <span class="tag">html2canvas</span>
+          </div>
+        </div>
+      </div>
 
-        <section>
-            <h2>Deployment History (Experiência)</h2>
-            <div class="content-section">
-                
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Agente V | Atendimento Ultra - <span>Nelogica</span></div>
-                        <div class="card-meta">jan/2024 - Presente</div>
-                    </div>
-                    <div class="card-body">
-                        Suporte técnico avançado para plataformas de alta performance (Profit, BlackArrow) para clientes institucionais. Interface estratégica entre operações e equipe de engenharia de software.
-                    </div>
-                </div>
+      <div class="project-item">
+        <div>
+          <div class="proj-num">P — 02</div>
+          <h3>Automação de Reclamações</h3>
+          <p>
+            Estruturação de lógicas de captura via Microsoft Graph API integradas ao Zendesk e ao Reclame Aqui, 
+            com rastreamento inteligente e alertas automáticos para a equipe de Customer Care.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Microsoft Graph API</span>
+            <span class="tag">Zendesk</span>
+            <span class="tag">Automação</span>
+          </div>
+        </div>
+      </div>
 
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Assistente de TI - <span>Proceconta</span></div>
-                        <div class="card-meta">fev/2023 - jan/2024</div>
-                    </div>
-                    <div class="card-body">
-                        Desenvolvimento de automações em Python para integração de dados ERP, captura e importação de notas fiscais. Gestão da infraestrutura de TI.
-                    </div>
-                </div>
-                
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Técnico de Suporte - <span>CESI Viamópolis</span></div>
-                        <div class="card-meta">mar/2019 - ago/2019</div>
-                    </div>
-                    <div class="card-body">
-                        Manutenção preventivo-corretiva de hardware, gestão de laboratório e suporte tecnológico para integração educacional.
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section>
-            <h2>Knowledge Base (Formação)</h2>
-            <div class="content-section">
-
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Análise e Desenvolvimento de Sistemas</div>
-                        <div class="card-meta">UniRitter</div>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Pós: Cibersegurança</div>
-                        <div class="card-meta">UNINTER</div>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div class="card-header">
-                        <div class="card-title">Pós: Análise de Dados & IA</div>
-                        <div class="card-meta">UNINTER</div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
+      <div class="project-item">
+        <div>
+          <div class="proj-num">P — 03</div>
+          <h3>Gestão Ativa de Detratores</h3>
+          <p>
+            Fluxo estruturado Zendesk → Dashboard → tag <code style="color:var(--gold)">cc_detr</code> para retenção proativa de clientes insatisfeitos. 
+            Documentado em apresentação executiva para stakeholders internos.
+          </p>
+          <div class="project-tags">
+            <span class="tag">CX Strategy</span>
+            <span class="tag">NPS</span>
+            <span class="tag">Zendesk</span>
+          </div>
+        </div>
+      </div>
 
     </div>
+  </section>
 
+  <!-- EXPERIENCE -->
+  <section class="section fade-up">
+    <div class="section-label">03 <span>/</span> Experiência</div>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-date">
+          jan/2024<br>Presente
+          <div class="current">Atual</div>
+        </div>
+        <div>
+          <div class="exp-role">Agente V · Atendimento Ultra</div>
+          <div class="exp-company">Nelogica</div>
+          <p class="exp-desc">
+            Suporte técnico avançado para plataformas de alta performance (Profit Ultra e BlackArrow) 
+            destinadas a clientes institucionais. Interface estratégica entre operações e engenharia de software, 
+            com foco em dados de CX, gestão de SLAs e projetos de automação internos.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">fev/2023<br>jan/2024</div>
+        <div>
+          <div class="exp-role">Assistente de TI</div>
+          <div class="exp-company">Proceconta</div>
+          <p class="exp-desc">
+            Desenvolvimento de automações em Python para integração de dados ERP, captura e importação 
+            de notas fiscais. Gestão da infraestrutura de TI e suporte operacional.
+          </p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">mar/2019<br>ago/2019</div>
+        <div>
+          <div class="exp-role">Técnico de Suporte</div>
+          <div class="exp-company">CESI Viamópolis</div>
+          <p class="exp-desc">
+            Manutenção preventivo-corretiva de hardware, gestão de laboratório e suporte tecnológico 
+            para integração educacional.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section fade-up">
+    <div class="section-label">04 <span>/</span> Formação</div>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-degree">Análise e Desenvolvimento de Sistemas</div>
+        <div class="edu-school">UniRitter</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Pós-Graduação em Cibersegurança</div>
+        <div class="edu-school">UNINTER</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Pós-Graduação em Análise de Dados & IA</div>
+        <div class="edu-school">UNINTER</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2025 <span>Antony Freitas</span> — Porto Alegre, RS</div>
+    <div>antony.freitas@outlook.com.br</div>
+  </footer>
+
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stagger stack items
+  document.querySelectorAll('.stack-item').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.04}s`;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease, background 0.25s, color 0.25s';
+  });
+  const stackObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.stack-item').forEach(item => {
+          item.style.opacity = '1';
+          item.style.transform = 'none';
+        });
+        stackObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.stack-grid').forEach(el => stackObserver.observe(el));
+</script>
 </body>
 </html>
